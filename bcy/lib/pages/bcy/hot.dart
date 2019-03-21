@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
+import 'detail.dart';
+
 class HotBCY extends StatefulWidget{
   
   @override
@@ -27,8 +29,8 @@ class _HotBCY extends State<HotBCY>{
         
         GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, //每行三列
-            childAspectRatio: 1.0 //显示区域宽高相等
+            crossAxisCount: 3, //每行2列
+            childAspectRatio: 0.6 //显示区域宽高比
           ),
           padding: const EdgeInsets.all(10.0),
           itemCount:data.length,
@@ -58,12 +60,20 @@ class _HotBCY extends State<HotBCY>{
         if(cardImage!=null&&cardImage.length>0){
           cover=item.getElementsByClassName('cardImage')[0].attributes['src'];
         }
+        String url='';
+        var dom_a= item.getElementsByClassName('db posr ovf');
+        if(dom_a!=null&&dom_a.length>0){
+          url=dom_a[0].attributes['href'];
+        }
+
         String userName=item.getElementsByClassName('username')[0]?.text;
         imgs.add(new ListViewItem(
+          this.context,
           id,
           userImg,
           userName,
-          cover
+          cover,
+          url
         ));
         
       }
@@ -77,20 +87,31 @@ print('数据数量：'+data.length.toString());
 
 class ListViewItem extends Container{
   String id;
-  ListViewItem(String id,String userImg,String userName,String cover):super(
+  String _url;
+  ListViewItem(BuildContext context,String id,String userImg,String userName,String cover,String url):super(
     //child:Image.network(cover)
     child: Card(
         elevation: 4.0,
         child: Column(
           children: <Widget>[
-            Image.network(cover),
+            GestureDetector(
+              child: Image.network(cover),
+              onTap: (){
+                
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context)=>BcyDetail(url)
+                ));
+              },
+            ),
+            
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
                   userName,
-                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 
               ],
@@ -99,7 +120,7 @@ class ListViewItem extends Container{
         ),
       ),
   ){
-    
     this.id=id;
+    _url=url;
   }
 }
