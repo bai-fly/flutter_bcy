@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import '../widgets/MyAppBar.dart';
-import 'bcy/hot.dart';
-import 'bcy/hotweek.dart';
-import 'bcy/hottoday.dart';
-import 'bcy/news.dart';
-import 'bcy/newscos.dart';
-class Bcy extends StatefulWidget{
+import '../../widgets/MyAppBar.dart';
+import 'hot.dart';
+import 'hotweek.dart';
+import 'hottoday.dart';
+import 'news.dart';
+import 'newscos.dart';
+class Index extends StatefulWidget{
   @override
   _Bcy createState() {
     return _Bcy();
   }
 
 }
-class _Bcy extends State<Bcy>{
+class _Bcy extends State<Index>{
   int _bootomIndex=0;
     List _titles=["热门推荐","本周热门","今日热门","新人榜","最新COS"];
- List<Widget> _bodys=[
+List<Widget> _bodys=[
    HotBCY(),
    HotWeekBCY(),
    HotTodayBCY(),

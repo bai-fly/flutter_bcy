@@ -25,6 +25,7 @@ class _Detail extends State<BcyDetail>{
   List<Widget> _list=new List<Widget>();
   _Detail(String id){
     _id=id;
+    print("详情url:"+'https://bcy.net'+_id);
   }
   // @override
   // void initState() {

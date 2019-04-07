@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'index.dart';
-import 'pages/bcy.dart';
+import 'pages/bcy/index.dart' as Bcy;
 import 'pages/bcy/detail.dart';
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Bcy(),
+      home: Bcy.Index(),
       routes: <String, WidgetBuilder>{
         '/bcyDetail': (BuildContext context) => BcyDetail('id'),
       },
