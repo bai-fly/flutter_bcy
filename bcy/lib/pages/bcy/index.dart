@@ -15,13 +15,13 @@ class Index extends StatefulWidget{
 class _Bcy extends State<Index>{
   int _bootomIndex=0;
     List _titles=["热门推荐","本周热门","今日热门","新人榜","最新COS"];
-List<Widget> _bodys=[
-   HotBCY(),
-   HotWeekBCY(),
-   HotTodayBCY(),
-   NewsBCY(),
-   NewsCOSBCY()
- ];
+    List<Widget> _bodys=[
+      HotBCY(key: ObjectKey('1'),),
+      HotWeekBCY(),
+      HotTodayBCY(),
+      NewsBCY(),
+      NewsCOSBCY()
+    ];
   @override
   Widget build(BuildContext context) {
     //_showBody=_bodys[0];
@@ -34,14 +34,20 @@ List<Widget> _bodys=[
         //},)
         null
       ),
-      body: _bodys[_bootomIndex],
+      //body: _bodys[_bootomIndex],
+      body:IndexedStack(
+        children: _bodys,
+        index: _bootomIndex,
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        key: ObjectKey('$_bootomIndex'),
+        type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.hot_tub), title: Text(_titles[0]),backgroundColor: Colors.lightBlue),
-          BottomNavigationBarItem(icon: Icon(Icons.border_top), title: Text(_titles[1]),backgroundColor: Colors.lightBlue),
-          BottomNavigationBarItem(icon: Icon(Icons.school), title: Text(_titles[2]),backgroundColor: Colors.lightBlue),
-          BottomNavigationBarItem(icon: Icon(Icons.new_releases), title: Text(_titles[3]),backgroundColor: Colors.lightBlue),
-          BottomNavigationBarItem(icon: Icon(Icons.school), title: Text(_titles[4]),backgroundColor: Colors.lightBlue),
+          BottomNavigationBarItem(icon: Icon(Icons.hot_tub), title: Text(_titles[0])),
+          BottomNavigationBarItem(icon: Icon(Icons.border_top), title: Text(_titles[1])),
+          BottomNavigationBarItem(icon: Icon(Icons.school), title: Text(_titles[2])),
+          BottomNavigationBarItem(icon: Icon(Icons.new_releases), title: Text(_titles[3])),
+          BottomNavigationBarItem(icon: Icon(Icons.school), title: Text(_titles[4])),
         ],
         currentIndex: _bootomIndex,
         //fixedColor: Colors.deepPurple,

@@ -7,7 +7,7 @@ class HotTodayBCY extends StatefulWidget{
   }
 
 }
-class _HotTodayBCY extends State<HotTodayBCY>{
+class _HotTodayBCY extends State<HotTodayBCY> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -17,5 +17,9 @@ class _HotTodayBCY extends State<HotTodayBCY>{
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
 }

@@ -4,7 +4,7 @@ import 'package:html/dom.dart' as dom;
 import 'detail.dart';
 
 class HotBCY extends StatefulWidget{
-  
+  HotBCY({Key key}):super(key:key);
   @override
   _HotBCY createState() {
     // TODO: implement createState
@@ -12,7 +12,7 @@ class HotBCY extends StatefulWidget{
   }
 
 }
-class _HotBCY extends State<HotBCY>{
+class _HotBCY extends State<HotBCY> with AutomaticKeepAliveClientMixin{
   String text="";
   var data=new List<ListViewItem>();
   
@@ -82,6 +82,11 @@ class _HotBCY extends State<HotBCY>{
             });
 print('数据数量：'+data.length.toString());
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
  
 }
 

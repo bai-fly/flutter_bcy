@@ -7,7 +7,7 @@ class NewsCOSBCY extends StatefulWidget{
   }
 
 }
-class _NewsCOSBCY extends State<NewsCOSBCY>{
+class _NewsCOSBCY extends State<NewsCOSBCY> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -17,5 +17,9 @@ class _NewsCOSBCY extends State<NewsCOSBCY>{
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
 }
