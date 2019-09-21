@@ -5,10 +5,10 @@ import 'package:bcy/pages/photoView/photoList.dart';
 import 'package:bcy/utils/database/imageListDb.dart';
 import 'package:bcy/utils/router.dart';
 import 'package:bcy/utils/toast.dart';
+import 'package:bcy/widgets/IndexListViewItem.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
-import 'package:cached_network_image/cached_network_image.dart';
 
 import 'index.dart';
 //import 'detail.dart';
@@ -87,7 +87,7 @@ class _QuanTuWang extends State<QuanTuWang> with AutomaticKeepAliveClientMixin {
   ];
 
   List<Widget> categoryWidget = new List();
-  var data = new List<ListViewItem>();
+  var data = new List<IndexListViewItem>();
 
   @override
   Future initState() {
@@ -186,7 +186,7 @@ class _QuanTuWang extends State<QuanTuWang> with AutomaticKeepAliveClientMixin {
       var dblist = await ImageListDb.getListByBaseUrl(baseUrl);
       if (dblist.length == total) {
         imageList = dblist;
-        print('加载数据库数据成功,数量' + imageList.length.toString());
+        print('全图网加载数据库数据成功,数量' + imageList.length.toString());
       } else {
         imageList = new List();
 
@@ -246,7 +246,7 @@ class _QuanTuWang extends State<QuanTuWang> with AutomaticKeepAliveClientMixin {
 
     setState(() {
       _showMore = false;
-      data = new List<ListViewItem>();
+      data = new List<IndexListViewItem>();
     });
     this.getData();
   }
@@ -269,10 +269,10 @@ class _QuanTuWang extends State<QuanTuWang> with AutomaticKeepAliveClientMixin {
     }
     var doms = dom.Document.html(html);
     var div = doms.getElementsByClassName('index_left')[0];
-    print(div.innerHtml);
+    
     var list = div.getElementsByTagName('li');
 
-    var imgs = new List<ListViewItem>();
+    var imgs = new List<IndexListViewItem>();
     for (int i = 0; i < list.length; i++) {
       var item = list[i];
       String id = '';
@@ -282,8 +282,8 @@ class _QuanTuWang extends State<QuanTuWang> with AutomaticKeepAliveClientMixin {
       String url = item.getElementsByTagName('a')[0]?.attributes['href'];
 
       String userName = item.getElementsByTagName('a')[0]?.attributes['title'];
-      print(url);
-      imgs.add(new ListViewItem(
+      
+      imgs.add(new IndexListViewItem(
         id,
         userImg,
         userName,
@@ -310,53 +310,4 @@ class _QuanTuWang extends State<QuanTuWang> with AutomaticKeepAliveClientMixin {
   }
 }
 
-class ListViewItem extends Container {
-  String id;
-  String _url;
-  ListViewItem(String id, String userImg, String userName, String cover,
-      String url, Function(String) onTap)
-      : super(
-          //child:Image.network(cover)
-          child: Card(
-            elevation: 4.0,
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  child: CachedNetworkImage(
-                    imageUrl: cover,
-                    placeholder: (context, url) =>
-                        new CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
-                  ),
-                  onTap: () {
-                    onTap(url);
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context)=>BcyDetail(url)
-                    // ));
-                  },
-                ),
-                Text(
-                  userName,
-                  style:
-                      TextStyle(fontSize: 10.0, fontWeight: FontWeight.normal),
-                ),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: <Widget>[
-                //     Text(
-                //       userName,
-                //       style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.normal),
-                //       maxLines: 3,
-                //       //overflow: TextOverflow.ellipsis,
-                //     ),
-                //   ],
-                // ),
-              ],
-            ),
-          ),
-        ) {
-    this.id = id;
-    _url = url;
-  }
-}
+

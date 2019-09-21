@@ -5,11 +5,10 @@ import 'package:bcy/pages/photoView/photoList.dart';
 import 'package:bcy/utils/database/imageListDb.dart';
 import 'package:bcy/utils/router.dart';
 import 'package:bcy/utils/toast.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bcy/widgets/IndexListViewItem.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
-import 'package:cached_network_image/cached_network_image.dart';
 
 import 'index.dart';
 //import 'detail.dart';
@@ -20,7 +19,7 @@ class MeiTuLu extends ShowMoreWidget {
   @override
   _MeiTuLu createState() {
     // TODO: implement createState
-    //this._meiTuLu = _MeiTuLu();
+    this._meiTuLu = _MeiTuLu();
     return _meiTuLu;
   }
 
@@ -64,7 +63,7 @@ class _MeiTuLu extends State<MeiTuLu> with AutomaticKeepAliveClientMixin {
   ];
 
   List<Widget> categoryWidget = new List();
-  var data = new List<ListViewItem>();
+  var data = new List<IndexListViewItem>();
 
   @override
   initState() {
@@ -96,16 +95,8 @@ class _MeiTuLu extends State<MeiTuLu> with AutomaticKeepAliveClientMixin {
       categoryWidget = l;
     });
   }
-  @override
-  Widget build(BuildContext context){
-    return Text('ceshi');
-  }
-
   //@override
-  Widget build2(BuildContext context) {
-
-
-
+  Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         GridView.builder(
@@ -180,7 +171,7 @@ class _MeiTuLu extends State<MeiTuLu> with AutomaticKeepAliveClientMixin {
       var dblist = await ImageListDb.getListByBaseUrl(baseUrl);
       if (dblist.length == total) {
         imageList = dblist;
-        print('加载数据库数据成功,数量' + imageList.length.toString());
+        print('美图网加载数据库数据成功,数量' + imageList.length.toString());
       } else {
         imageList = new List();
 
@@ -240,12 +231,12 @@ class _MeiTuLu extends State<MeiTuLu> with AutomaticKeepAliveClientMixin {
 
     setState(() {
       _showMore = false;
-      data = new List<ListViewItem>();
+      data = new List<IndexListViewItem>();
     });
     this.getData();
   }
 
-  getData() async {return;
+  getData() async {
     String url = _url;
 
     //index_2.html
@@ -261,23 +252,25 @@ class _MeiTuLu extends State<MeiTuLu> with AutomaticKeepAliveClientMixin {
       print('数据已加载完毕');
       return;
     }
+    
+
     var doms = dom.Document.html(html);
-    var div = doms.getElementsByClassName('index_left')[0];
-    print(div.innerHtml);
+    var div = doms.getElementsByClassName('boxs')[0];
+   
     var list = div.getElementsByTagName('li');
 
-    var imgs = new List<ListViewItem>();
+    var imgs = new List<IndexListViewItem>();
     for (int i = 0; i < list.length; i++) {
       var item = list[i];
       String id = '';
       String userImg = item.getElementsByTagName('img')[0]?.attributes['src'];
-      String cover = item.getElementsByTagName('img')[0]?.attributes['src'];
+      String cover = userImg;
 
       String url = item.getElementsByTagName('a')[0]?.attributes['href'];
 
-      String userName = item.getElementsByTagName('a')[0]?.attributes['title'];
-      print(url);
-      imgs.add(new ListViewItem(
+      String userName = item.getElementsByTagName('img')[0]?.attributes['alt'];
+      
+      imgs.add(new IndexListViewItem(
         id,
         userImg,
         userName,
@@ -301,56 +294,5 @@ class _MeiTuLu extends State<MeiTuLu> with AutomaticKeepAliveClientMixin {
     setState(() {
       this._showMore = !this._showMore;
     });
-  }
-}
-
-class ListViewItem extends Container {
-  String id;
-  String _url;
-  ListViewItem(String id, String userImg, String userName, String cover,
-      String url, Function(String) onTap)
-      : super(
-          //child:Image.network(cover)
-          child: Card(
-            elevation: 4.0,
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  child: CachedNetworkImage(
-                    imageUrl: cover,
-                    placeholder: (context, url) =>
-                        new CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
-                  ),
-                  onTap: () {
-                    onTap(url);
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context)=>BcyDetail(url)
-                    // ));
-                  },
-                ),
-                Text(
-                  userName,
-                  style:
-                      TextStyle(fontSize: 10.0, fontWeight: FontWeight.normal),
-                ),
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: <Widget>[
-                //     Text(
-                //       userName,
-                //       style: TextStyle(fontSize: 10.0, fontWeight: FontWeight.normal),
-                //       maxLines: 3,
-                //       //overflow: TextOverflow.ellipsis,
-                //     ),
-                //   ],
-                // ),
-              ],
-            ),
-          ),
-        ) {
-    this.id = id;
-    _url = url;
   }
 }
