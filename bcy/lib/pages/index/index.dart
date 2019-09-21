@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../widgets/MyAppBar.dart';
 import 'quantuwang.dart';
 import 'meitulu.dart';
 import 'qyll.dart';
-
+abstract class ShowMoreWidget extends StatefulWidget{
+  showMore();
+}
 class Index extends StatefulWidget{
   @override
   _Bcy createState() {
@@ -14,11 +17,23 @@ class Index extends StatefulWidget{
 class _Bcy extends State<Index>{
   int _bootomIndex=0;
     List _titles=["全图网","美图录","7106"];
-    List<Widget> _bodys=[
-      QuanTuWang(key: ObjectKey('1'),),
+    List<ShowMoreWidget> _bodys=[
+      QuanTuWang(),
       MeiTuLu(),
       Qyll(),
     ];
+@override
+void initState() {
+    // TODO: implement initState
+    super.initState();
+    var permission =  PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
+    if (permission != PermissionStatus.granted) {
+      PermissionHandler().requestPermissions(<PermissionGroup>[
+        PermissionGroup.storage, // 在这里添加需要的权限
+      ]);
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     //_showBody=_bodys[0];
@@ -29,7 +44,9 @@ class _Bcy extends State<Index>{
         //FlatButton(child: Text('半次元',style: TextStyle(color: Colors.white),),onPressed: (){
 
         //},)
-        null
+        FlatButton(child: Icon(Icons.more_horiz,color: Colors.white,),onPressed: (){
+            _bodys[_bootomIndex].showMore();
+        })
       ),
       //body: _bodys[_bootomIndex],
       body:IndexedStack(

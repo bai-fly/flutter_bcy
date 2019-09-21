@@ -29,6 +29,16 @@ dependencies:
   html: ^0.13.4+1
   # webview插件
   flutter_webview_plugin: ^0.3.3
+  # 图片预览插件
+  photo_view: ^0.5.0
+  #SQLite
+  sqflite: ^1.1.6
+  #图片缓存
+  cached_network_image: ^1.1.1
+  #权限申请
+  permission_handler: '^3.2.0'
+  #图片保存
+  image_gallery_saver : ^1.1.0
 
 dev_dependencies:
   flutter_test:

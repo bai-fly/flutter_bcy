@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
-class Qyll extends StatefulWidget{
+
+import 'index.dart';
+class Qyll extends ShowMoreWidget{
   @override
   _Qyll createState() {
     // TODO: implement createState
     return _Qyll();
+  }
+
+  @override
+  showMore() {
+    // TODO: implement showMore
+    return null;
   }
 
 }
