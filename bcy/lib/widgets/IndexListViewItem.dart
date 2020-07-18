@@ -11,7 +11,8 @@ class IndexListViewItem extends Container {
           //child:Image.network(cover)
           child: Card(
             elevation: 4.0,
-            child: Column(
+            child: Flex(
+              direction: Axis.vertical,
               children: <Widget>[
                 GestureDetector(
                   child: CachedNetworkImage(
@@ -27,11 +28,19 @@ class IndexListViewItem extends Container {
                     // ));
                   },
                 ),
-                Text(
-                  userName,
-                  style:
-                      TextStyle(fontSize: 10.0, fontWeight: FontWeight.normal),
-                ),
+                Expanded(
+                    child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: Text(
+                      userName,
+                      style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                )),
                 // Column(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   crossAxisAlignment: CrossAxisAlignment.center,
